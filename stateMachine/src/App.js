@@ -25,14 +25,29 @@ function App() {
     setState('loading')
     fetch('/data.json')
     .then((data) => {
-      setState('loaded')
+      try {
+
+        JSON.parse(data)
+        setState('loaed')
+        
+      } catch (error) {
+        setState('req error')
+      }
     })
     .catch((err) => {
-      setState('error')
+        setState('network-error')
     })
 
     if(state === 'loading'){
       return( <div> Loading...</div>)
+    }
+
+    if(state === 'network-error'){
+      return( <div> Error fetching your request</div>)
+    }
+
+    if(state === 'req-error'){
+      return( <div> Bad server responses...</div>)
     }
 
     if(state === 'error'){
